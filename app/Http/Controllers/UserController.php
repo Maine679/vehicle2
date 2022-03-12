@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -14,7 +14,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get();
+//        $objUsers = new User();
+//        $users = $objUsers->
+//        $users = User::get();
+        $users = User::paginate(10);
         return view('index', compact('users'));
     }
 
@@ -25,19 +28,19 @@ class UserController extends Controller
      */
     public function create()
     {
-        dd('form');
         return view('form');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param UserRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        dd('store');
+        $user = User::create($request->only('name','password','email'));
+        return redirect()->route('users.index')->withSuccess('Created user ' . $user->name);
     }
 
     /**
@@ -55,33 +58,35 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(User $user)
     {
-        return view('edit',compact('user'));
+        return view('form',compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param UserRequest $request
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        return view('update',compact('request', 'user'));
+        $user->update($request->only('name','email','password'));
+        return redirect()->route('users.index')->withSuccess('Updated user ' . $user->name);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user)
     {
-        return view('destroy', compact('user'));
+        $user->delete();
+        return redirect()->route('users.index')->withDanger('Delete user ' . $user->name);
     }
 }
