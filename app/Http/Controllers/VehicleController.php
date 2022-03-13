@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VehicleRequest;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\VehicleType;
@@ -16,10 +17,16 @@ class VehicleController extends Controller
      *
      * @return Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vehicles = Vehicle::get();
-        return view('vehicles.index', compact('vehicles'));
+        if (isset($request->id)) {
+            $users = User::all()->where('id',$request->id);
+            $vehicles = Vehicle::all()->where('user_id',$request->id);
+            return view('vehicles.index', compact('vehicles','users'));
+        } else {
+            $vehicles = Vehicle::get();
+            return view('vehicles.index', compact('vehicles'));
+        }
     }
 
     /**
@@ -37,12 +44,12 @@ class VehicleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param VehicleRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(VehicleRequest $request)
     {
-        $vehicle = Vehicle::create($request->only(['vehicle_name','type','vincode','number_plate','user_id']));
+        $vehicle = Vehicle::create($request->only(['vehicle_name', 'type', 'vincode', 'number_plate', 'user_id']));
 
         return redirect()->route('vehicles.index')->withSuccess('Create vehicle ' . $request->vehicle_name);
     }
@@ -50,46 +57,50 @@ class VehicleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Vehicle  $vehicle
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Vehicle $vehicle
+     * @return Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show(Vehicle $vehicle)
     {
-        dd("show");
+        return view('vehicles.show', compact('vehicle'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Vehicle  $vehicle
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Vehicle $vehicle
+     * @return Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(Vehicle $vehicle)
     {
-        dd("edit");
+        $users = User::get();
+        $vehicle_types = VehicleType::get();
+
+        return view('vehicles.form', compact('vehicle', 'users', 'vehicle_types'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Vehicle  $vehicle
-     * @return \Illuminate\Http\Response
+     * @param VehicleRequest $request
+     * @param \App\Models\Vehicle $vehicle
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(VehicleRequest $request, Vehicle $vehicle)
     {
-        dd("update");
+        $vehicle->update($request->only('vehicle_name', 'type', 'vincode', 'number_plate', 'user_id'));
+        return redirect()->route('vehicles.show', compact('vehicle'))->withSuccess('Vehicle ' . $vehicle->number_plate . ' data update success.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Vehicle  $vehicle
+     * @param \App\Models\Vehicle $vehicle
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Vehicle $vehicle)
+    public function destroy(Vehicle $vehicle): \Illuminate\Http\RedirectResponse
     {
         $vehicle->delete();
-        return redirect()->route('vehicle.list');
+        return redirect()->route('vehicles.index')->withDanger('Vehicle' . $vehicle->vehicle_name . ' delete success');
     }
 }

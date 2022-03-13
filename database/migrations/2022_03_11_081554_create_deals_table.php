@@ -15,7 +15,13 @@ class CreateDealsTable extends Migration
     {
         Schema::create('deals', function (Blueprint $table) {
             $table->id();
-            
+
+            $table->unsignedBigInteger('salesman_id');
+            $table->foreign('salesman_id')->on('users')->references('id')->onDelete('cascade');
+
+            $table->unsignedBigInteger('buyer_id');
+            $table->foreign('buyer_id')->on('users')->references('id')->onDelete('cascade');
+
             $table->integer('price');
             $table->integer('mileage');
 

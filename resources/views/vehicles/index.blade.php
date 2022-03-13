@@ -1,9 +1,11 @@
 @extends('vehicles.layout')
-@section('title')
-    Vehicle list
+@section('technical_data')
+    {{$locUser = Null}}
+    @foreach($users as $user)
+        {{$locUser = $user}}
+    @endforeach
 @endsection
 @section('content')
-
     @if(session('success'))
         <div class="alert alert-success">{{session('success')}}</div>
     @endif
@@ -43,7 +45,7 @@
                             @csrf
                             <a type="button" class="btn btn-success" href="{{route('vehicles.show',$vehicle)}}">Show</a>
                             <a type="button" class="btn btn-warning"
-                               href="{{route('vehicles.edit',$vehicle)}}">Update</a>
+                               href="{{route('vehicles.edit',$vehicle)}}">Edit</a>
                             @method('DELETE')
                             <button class="btn btn-danger" type="submit">Delete</button>
                         </form>
@@ -54,4 +56,11 @@
         </tbody>
     </table>
 
+@endsection
+@section('title')
+    @if(isset($users))
+        Vehicle list <b>{{$locUser->name}}</b>
+    @else
+        Vehicle list all
+    @endif
 @endsection

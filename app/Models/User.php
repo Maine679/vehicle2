@@ -51,4 +51,11 @@ class User extends Authenticatable
         return $this->hasMany(Vehicle::class);
     }
 
+    public function purchases() {
+        return $this->hasMany(Deal::class,'buyer_id','id');
+    }
+    public function sales() {
+        return $this->hasMany(Deal::class,'salesman_id','id');
+    }
+
 }

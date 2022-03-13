@@ -37,7 +37,7 @@
                     <th scope="row"><a href="{{route("users.show",$user)}}">{{$user->id}}</a></th>
                     <td><a href="{{route("users.show",$user)}}">{{$user->name}}</a></td>
                     <td><a href="{{route("users.show",$user)}}">{{$user->email}}</a></td>
-                    <td><a href="{{route('vehicles.index')}}">{{$user->vehicles->count()}}</a></td>
+                    <td><a href="{{route('vehicles.index',['id'=>$user->id])}}">{{$user->vehicles->count()}}</a></td>
                     <td>
                         <form method="POST" action="{{route('users.destroy', $user)}}">
                             <a class="btn btn-warning" type="button" href="{{ route('users.edit',$user) }}">Update</a>
