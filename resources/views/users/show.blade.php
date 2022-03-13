@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('users.layout')
 @section('title', "Show user " . $user->name)
 @section('content')
 

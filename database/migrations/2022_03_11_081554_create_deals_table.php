@@ -15,10 +15,9 @@ class CreateDealsTable extends Migration
     {
         Schema::create('deals', function (Blueprint $table) {
             $table->id();
-
-            $table->integer("vehicle_id");
-            $table->integer("bayer_id");
-            $table->integer("salesman_id");
+            
+            $table->integer('price');
+            $table->integer('mileage');
 
             $table->timestamps();
         });

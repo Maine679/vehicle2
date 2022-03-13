@@ -18,7 +18,7 @@ class UserController extends Controller
 //        $users = $objUsers->
 //        $users = User::get();
         $users = User::paginate(10);
-        return view('index', compact('users'));
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('form');
+        return view('users.form');
     }
 
     /**
@@ -51,7 +51,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('show',compact('user'));
+        return view('users.show',compact('user'));
     }
 
     /**
@@ -62,7 +62,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('form',compact('user'));
+        return view('users.form',compact('user'));
     }
 
     /**

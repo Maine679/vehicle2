@@ -19,6 +19,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/','users');
 
-Route::resource('deals', DealController::class);
+//Route::resource('deals', DealController::class);
 Route::resource('vehicles', VehicleController::class);
 Route::resource('users',UserController::class);

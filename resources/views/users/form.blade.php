@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('users.layout')
 @section('title')
     @if(isset($user))
         Update user
