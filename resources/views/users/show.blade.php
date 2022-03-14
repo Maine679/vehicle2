@@ -18,6 +18,38 @@
         </ul>
     </div>
 
+
+    <div class="h3">User deal</div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Vehicle</th>
+            <th scope="col">Price</th>
+            <th scope="col">Mileage</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        @if($user->sales->count())
+            @foreach($user->sales as $deal)
+                <tr>
+                    <th scope="row">{{$deal->id}}</th>
+                    <td>{{$deal->vehicle->vehicle_name}}</td>
+                    <td>{{$deal->price}}</td>
+                    <td>{{$deal->mileage}}</td>
+                </tr>
+            @endforeach
+        @endif
+        </tbody>
+    </table>
+
+
+
+
+
+
     <form method="POST" action="{{route('users.destroy', $user)}}">
         <a class="btn btn-warning" type="button" href="{{ route('users.edit',$user) }}">Update</a>
         @method("DELETE")
