@@ -9,12 +9,33 @@ class Deal extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['salesman_id','buyer_id','price','mileage'];
+    protected $fillable = ['salesman_id','buyer_id','price','mileage','vehicle_id'];
 
-    public function salesman() {
-        return $this->belongsTo(User::class,'salesman_id','id');
-    }
-    public function buyer() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function buyer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class,'buyer_id','id');
     }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function salesman(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class,'salesman_id','id');
+    }
+
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function vehicle(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Vehicle::class,'vehicle_id', 'id');
+    }
+
 }

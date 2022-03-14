@@ -33,5 +33,13 @@ class Vehicle extends Model
         return $this->belongsTo(VehicleType::class,'type','id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deals(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Deal::class,'vehicle_id','id');
+    }
+
 
 }

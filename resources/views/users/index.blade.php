@@ -7,6 +7,7 @@
     <div class="col">
         <a class="btn btn-success" href="{{ route('users.create') }}">Create user</a>
         <a href="{{route('vehicles.index')}}" class="btn btn-success">Vehicle list</a>
+        <a href="{{route('deals.index')}}" class="btn btn-success">Deals list</a>
     </div>
 
     @if(session('danger'))
@@ -18,7 +19,6 @@
     @if(session('warning'))
         <div class="alert alert-warning">{{session('warning')}}</div>
     @endif
-
 
     <table class="table table-sm">
         <thead>

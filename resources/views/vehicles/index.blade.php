@@ -1,9 +1,10 @@
 @extends('vehicles.layout')
-@section('technical_data')
-    {{$locUser = Null}}
-    @foreach($users as $user)
-        {{$locUser = $user}}
-    @endforeach
+@section('title')
+    @if(isset($user))
+        Vehicle list <b>{{$user->name}}</b>
+    @else
+        Vehicle list all
+    @endif
 @endsection
 @section('content')
     @if(session('success'))
@@ -20,7 +21,6 @@
         <a type="button" class="btn btn-success" href="{{route('vehicles.create')}}">Create vehicle</a>
         <a type="button" class="btn btn-success" href="{{route('users.index')}}">Back to user list</a>
     </div>
-
 
     <table class="table">
         <thead>
@@ -44,8 +44,8 @@
                         <form method="POST" action="{{route('vehicles.destroy',$vehicle)}}">
                             @csrf
                             <a type="button" class="btn btn-success" href="{{route('vehicles.show',$vehicle)}}">Show</a>
-                            <a type="button" class="btn btn-warning"
-                               href="{{route('vehicles.edit',$vehicle)}}">Edit</a>
+                            <a type="button" class="btn btn-warning" href="{{route('vehicles.edit',$vehicle)}}">Edit</a>
+                            <a href="{{route('deals.create',['user_id'=>$vehicle->user->id,'vehicle_id'=>$vehicle->id])}}" class="btn btn-success">Deal</a>
                             @method('DELETE')
                             <button class="btn btn-danger" type="submit">Delete</button>
                         </form>
@@ -55,12 +55,5 @@
         @endif
         </tbody>
     </table>
+@endsection
 
-@endsection
-@section('title')
-    @if(isset($users))
-        Vehicle list <b>{{$locUser->name}}</b>
-    @else
-        Vehicle list all
-    @endif
-@endsection

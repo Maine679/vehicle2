@@ -25,6 +25,9 @@ class CreateDealsTable extends Migration
             $table->integer('price');
             $table->integer('mileage');
 
+            $table->unsignedBigInteger('vehicle_id');
+            $table->foreign('vehicle_id')->on('vehicles')->references('id')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

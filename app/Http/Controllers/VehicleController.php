@@ -20,9 +20,9 @@ class VehicleController extends Controller
     public function index(Request $request)
     {
         if (isset($request->id)) {
-            $users = User::all()->where('id',$request->id);
+            $user = User::find($request->id);
             $vehicles = Vehicle::all()->where('user_id',$request->id);
-            return view('vehicles.index', compact('vehicles','users'));
+            return view('vehicles.index', compact('vehicles','user'));
         } else {
             $vehicles = Vehicle::get();
             return view('vehicles.index', compact('vehicles'));

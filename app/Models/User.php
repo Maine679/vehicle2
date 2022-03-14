@@ -51,10 +51,19 @@ class User extends Authenticatable
         return $this->hasMany(Vehicle::class);
     }
 
-    public function purchases() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchases(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Deal::class,'buyer_id','id');
     }
-    public function sales() {
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sales(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Deal::class,'salesman_id','id');
     }
 
